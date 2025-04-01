@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Black's Boutique</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        function toggleMenu() {
+            document.getElementById('menu').classList.toggle('hidden');
+            document.getElementById('menu').classList.toggle('flex');
+        }
+
+        
+        
+        
+    </script>
+
+
+
+    <style>
+        
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px); /* Efecto de desplazamiento hacia arriba */
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in {
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        /* Menú responsivo */
+        #menu {
+            z-index: 100; /* Asegura que el menú esté por encima de otros elementos */
+
+        }
+
+
+        /* Fondo oscuro con texto blanco */
+footer {
+    background-color: #1a1a1a;
+    color: white;
+    width: 100%;
+    
+}
+
+/* Distribución en columnas equitativas */
+footer .container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+/* Los íconos de redes sociales serán más grandes */
+footer .flex svg {
+    width: 2rem;
+    height: 2rem;
+    transition: transform 0.3s ease, fill 0.3s ease;
+}
+
+/* Efecto hover en los íconos */
+footer .flex svg:hover {
+    transform: scale(1.1);
+    fill: #ffffff;
+}
+
+/* Ajuste responsivo: columna única en móviles */
+@media (max-width: 768px) {
+    footer .container {
+        grid-template-columns: 1fr;
+        width: 100%;
+    }
+
+    footer .flex {
+        justify-content: center;
+        gap: 1.5rem;
+       
+    }
+}
+
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.marquee-wrapper {
+    width: 100%;
+    overflow: hidden;
+    background: linear-gradient(to right, black, #1a1a1a);
+}
+
+
+
+.marquee {
+    display: flex;
+    animation: marquee 10s linear infinite;
+}
+
+.marquee-content {
+    display: flex;
+    white-space: nowrap;
+}
+
+.marquee-content span {
+    padding-right: 70px; /* Espacio entre los mensajes */
+}
+
+/* Para duplicar los mensajes y hacerlo continuo */
+.marquee-content span:last-child {
+    padding-right: 0;
+}
+
+/* Crear un ciclo continuo con repetición infinita */
+.marquee-wrapper::before {
+    content: attr(data-content);
+    display: flex;
+    white-space: nowrap;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    animation: marquee 20s linear infinite;
+}
+
+
+
+@keyframes fade-in {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fade-in 1s ease-out;
+  }
+  
+
+
+
+
+    </style>
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-gradient-to-r from-black to-gray-700 text-white p-6 flex justify-between items-center">
+
+        <h1 class="text-3xl font-bold tracking-wide flex-1">Blacks Boutique</h1>
+        <button class="md:hidden" onclick="toggleMenu()">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+        </button>
+        <ul id="menu" class="hidden flex-col absolute top-16 left-0 w-full bg-black text-white p-4 space-y-4 md:flex md:flex-row md:static md:w-auto md:space-x-8 md:bg-transparent md:p-0 md:space-y-0">
+            <li><a href="{{ url_for('index') }}" class="flex items-center space-x-2 block py-3 px-6 rounded hover:bg-gray-700">Inicio</a></li>
+            <li><a href="{{ url_for('mapa') }}" class="flex items-center space-x-2 block py-3 px-6 rounded hover:bg-gray-700">Mapa</a></li>
+
+
+        </ul>
+    </nav> 
+
+    <!-- Administración -->
+    <section id="admin" class="p-4">
+        <h2 class="text-xl font-semibold mb-4">Administrar Productos</h2>
+
+        <!-- Formulario para agregar productos -->
+        <form id="form-agregar" class="mb-4">
+            <div class="mb-4">
+                <label for="nombre" class="block">Nombre del Producto:</label>
+                <input type="text" id="nombre" class="border p-2 w-full" placeholder="Nombre del Producto" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="categoria" class="block">Categoría:</label>
+                <select id="categoria" class="border p-2 w-full" required>
+                    <option value="Ropa">Ropa</option>
+                    <option value="Accesorios">Accesorios</option>
+                    <option value="Interiores">Interiores</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label for="precio" class="block">Precio:</label>
+                <input type="number" id="precio" class="border p-2 w-full" placeholder="Precio" required>
+            </div>
+
+            <div class="mb-4">
+                <label for="tallas" class="block">Tallas Disponibles:</label>
+                <input type="text" id="tallas" class="border p-2 w-full" placeholder="Ejemplo: S, M, L, XL">
+            </div>
+
+            <div class="mb-4">
+                <label for="colores" class="block">Colores Disponibles:</label>
+                <input type="text" id="colores" class="border p-2 w-full" placeholder="Ejemplo: Rojo, Azul, Negro">
+            </div>
+
+            <div class="mb-4">
+                <label for="imagen" class="block">Subir Imagen:</label>
+                <input type="file" id="imagen" class="border p-2 w-full" accept="image/*" required>
+            </div>
+
+            <button type="submit" class="bg-black text-white p-2 rounded w-full">Agregar Producto</button>
+        </form>
+
+        <!-- Productos existentes -->
+        <h3 class="text-lg font-semibold mb-2">Productos Existentes</h3>
+        <div id="productos-admin" class="space-y-4">
+            <!-- Aquí se agregarán los productos para editar/eliminar -->
+        </div>
+    </section>
+
+    <script src="app.js"></script>
+
+
+
+
+
+
+
+
+    <footer class="bg-gradient-to-r from-black to-gray-700 text-white py-12 px-6 sm:px-12 w-full">
+
+        <div class="container mx-auto flex flex-wrap justify-between items-start space-y-6 md:space-y-0">
+            <!-- Sección 1: Información de la tienda -->
+            <div class="flex-1 space-y-4 min-w-[250px]">
+                <h2 class="text-xl font-bold">Blacks Boutique</h2>
+                <p class="text-sm">Tu tienda de moda exclusiva, ofreciendo las últimas tendencias y productos únicos para ti.</p>
+            </div>
+    
+            <!-- Sección 2: Enlaces de navegación -->
+            <div class="flex-1 space-y-4 min-w-[250px]">
+                <h3 class="text-lg font-semibold">Enlaces rápidos</h3>
+                <ul class="space-y-2 text-sm">
+                    <a href="{{ url_for('index') }}" class="hover:text-gray-400 transition duration-200">Inicio</a>
+                    <li><a href="#categorias" class="hover:text-gray-400 transition duration-200">Categorías</a></li>
+                    <a href="{{ url_for('mapa') }}" class="hover:text-gray-400 transition duration-200">Mapa</a>
+                </ul>
+            </div>
+    
+            <!-- Sección 3: Redes sociales -->
+            <div class="flex-1 space-y-4 min-w-[250px]">
+                <h3 class="text-lg font-semibold">Síguenos</h3>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-200">
+                        <i class="fab fa-facebook-f text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-200">
+                        <i class="fab fa-instagram text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-200">
+                        <i class="fab fa-twitter text-2xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-200">
+                        <i class="fab fa-whatsapp text-2xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    
+        <!-- Línea separadora -->
+        <div class="mt-8 border-t border-gray-700"></div>
+    
+        <div class="mt-4 text-center">
+            <p class="text-sm text-gray-400">&copy; 2025 Blacks Boutique. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+</body>
+</html>
